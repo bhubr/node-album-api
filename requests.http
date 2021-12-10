@@ -1,0 +1,11 @@
+# Album API requests
+
+### Create a post
+POST http://localhost:5200/api/posts
+Content-Type: application/json
+
+{
+  "picture": "https://unsplash.com/photos/JH0wCegJsrQ/download?force=true&w=640",
+  "title": "La nuit",
+  "description": "C'est beau une ville la nuit !"
+}
