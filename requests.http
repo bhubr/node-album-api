@@ -22,8 +22,11 @@ GET https://album-api.benoithubert.me/api/posts
 
 
 ### Get one post
-GET http://localhost:5200/api/posts/1
+GET http://localhost:5200/api/posts/100
 
 
 ### Get one post
 GET https://album-api.benoithubert.me/api/posts/1
+
+### Delete one post
+DELETE http://localhost:5200/api/posts/2

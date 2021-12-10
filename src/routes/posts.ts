@@ -59,4 +59,23 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const postId = Number(req.params.id);
+    const postRepository = getRepository(Post);
+    const { affected } = await postRepository.delete(postId);
+    if (affected === 0) {
+      return res.status(404).send({
+        error: `post with id ${postId} not found`
+      });
+    }
+    return res.sendStatus(204);
+  } catch (err) {
+    console.error('Error while requesting post', err.message);
+    return res.status(500).json({
+      error: err.message,
+    });
+  }
+});
+
 export default router;
