@@ -9,3 +9,21 @@ Content-Type: application/json
   "title": "La nuit",
   "description": "C'est beau une ville la nuit !"
 }
+
+### Create a post
+POST https://album-api.benoithubert.me/api/posts
+Content-Type: application/json
+
+{ "title": "Mount Fuji", "description": "Picture by Clay Banks / unsplash.com", "picture": "https://unsplash.com/photos/u27Rrbs9Dwc/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTQxMDA1&force=true&w=640" }
+
+
+### Get all posts
+GET https://album-api.benoithubert.me/api/posts
+
+
+### Get one post
+GET http://localhost:5200/api/posts/1
+
+
+### Get one post
+GET https://album-api.benoithubert.me/api/posts/1

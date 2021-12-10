@@ -40,23 +40,19 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:slug/*', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const { slug } = req.params;
-    const bits = req.url.split('/');
-    while(bits.shift() !== slug) {}
+    const postId = Number(req.params.id);
     const postRepository = getRepository(Post);
-    const posts: Post[] = await postRepository.find({ slug });
-    if (!posts.length) {
+    const post: Post = await postRepository.findOne(postId);
+    if (!post) {
       return res.status(404).send({
-        error: `post "${slug}" not found`
-      })
+        error: `post with id ${postId} not found`
+      });
     }
-    const [post] = posts;
-    const postFile = join(postsRoot, slug, ...bits);
-    return res.sendFile(postFile);
+    return res.send(post);
   } catch (err) {
-    console.error('Error while requesting posts', err.message);
+    console.error('Error while requesting post', err.message);
     return res.status(500).json({
       error: err.message,
     });
