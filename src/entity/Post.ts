@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Tag } from './Tag';
 
 @Entity()
@@ -17,6 +17,12 @@ export class Post {
 
   @Column()
   picture: string;
+
+  @Column({ type: 'int' })
+  likes: number;
+
+  @CreateDateColumn()
+  createdAt: string;
 
   @ManyToMany(() => Tag)
   @JoinTable()

@@ -83,6 +83,27 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id/like', async (req, res) => {
+  try {
+    const postId = Number(req.params.id);
+    const postRepository = getRepository(Post);
+    const post: Post = await postRepository.findOne(postId);
+    if (!post) {
+      return res.status(404).send({
+        error: `post with id ${postId} not found`
+      });
+    }
+    post.likes += 1;
+    await postRepository.save(post);
+    return res.send(post);
+  } catch (err) {
+    console.error('Error while requesting post', err.message);
+    return res.status(500).json({
+      error: err.message,
+    });
+  }
+});
+
 router.delete('/:id', async (req, res) => {
   try {
     const postId = Number(req.params.id);
