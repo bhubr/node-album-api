@@ -14,6 +14,6 @@ export class User {
   @Column('varchar', { nullable: false , length: 60 })
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   avatar: string;
 }
