@@ -22,8 +22,8 @@ router.post('/token', async (req, res) => {
       user = users[0];
     }
     const jwtSecret = process.env.JWT_SECRET;
-    const { id, name, login, avatarUrl } = user;
-    const jwtPayload = { id, name, login, avatarUrl };
+    const { id } = user;
+    const jwtPayload = { id };
     const jwt = await sign(jwtPayload, jwtSecret);
     const isProd = process.env.NODE_ENV === 'production';
     return res

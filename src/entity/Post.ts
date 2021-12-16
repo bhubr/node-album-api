@@ -1,5 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Tag } from './Tag';
+import { User } from './User';
 
 @Entity()
 export class Post {
@@ -23,6 +32,9 @@ export class Post {
 
   @CreateDateColumn()
   createdAt: string;
+
+  @ManyToOne(() => User, (user) => user.posts)
+  user: User;
 
   @ManyToMany(() => Tag)
   @JoinTable()
