@@ -5,15 +5,15 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'int' })
+  @Column('int', { nullable: true })
   githubId: number;
 
-  @Column()
-  name: string;
+  @Column({ nullable: false })
+  email: string;
+
+  @Column('varchar', { nullable: false , length: 60 })
+  password: string;
 
   @Column()
-  login: string;
-
-  @Column()
-  avatarUrl: string;
+  avatar: string;
 }

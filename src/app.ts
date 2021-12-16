@@ -22,19 +22,8 @@ app.use(morgan('dev'));
 
 app.use('/api', apiRouter);
 
-async function bootstrap() {
+export default app;
+
+export async function initializeConnection() {
   const connection = await createConnection();
-
-  // const repository = connection.getRepository(Post);
-
-  // const book = new Book();
-  // book.title = 'The Kubernetes Workshop';
-  // book.slug = 'the-kubernetes-workshop';
-  // book.coverPicture = 'https://static.packt-cdn.com/products/9781838820756/cover/9781838820756-original.png';
-  // await repository.save(book);
-
-  const port = process.env.PORT;
-  app.listen(port, () => console.log(`Listening on ${port}`));
 }
-
-bootstrap().catch((error) => console.log(error));
