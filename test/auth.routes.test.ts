@@ -18,15 +18,11 @@ const createUser = async (email, clearPassword) => {
 };
 
 describe('auth routes', () => {
-  before(async () => {
-    const repository = getRepository(User);
-    await repository.clear();
-  });
 
   // Register route
   describe('register', () => {
     it('fails with missing parameters', () => request(app)
-      .post('/api/auth/register')
+      .post('/api/v2/auth/register')
       .send({})
       .set('Accept', 'application/json')
       .expect(400)
@@ -38,7 +34,7 @@ describe('auth routes', () => {
     );
 
     it('fails with an invalid email', () => request(app)
-      .post('/api/auth/register')
+      .post('/api/v2/auth/register')
       .send({ login: 'john', pwd: '12345' })
       .set('Accept', 'application/json')
       .expect(400)
@@ -50,7 +46,7 @@ describe('auth routes', () => {
     );
 
     it('fails with a short password', () => request(app)
-      .post('/api/auth/register')
+      .post('/api/v2/auth/register')
       .send({ login: 'john@example.com', pwd: '123' })
       .set('Accept', 'application/json')
       .expect(400)
@@ -64,7 +60,7 @@ describe('auth routes', () => {
     it('fails with an existing email', async () => {
       await createUser('duplicate@example.com', 'abc12');
       return request(app)
-        .post('/api/auth/register')
+        .post('/api/v2/auth/register')
         .send({ login: 'duplicate@example.com', pwd: 'abc12' })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -73,7 +69,7 @@ describe('auth routes', () => {
     );
 
     it('succeeds with correct parameters', () => request(app)
-      .post('/api/auth/register')
+      .post('/api/v2/auth/register')
       .send({ login: 'will@example.com', pwd: 'abc12' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -92,7 +88,7 @@ describe('auth routes', () => {
     });
 
     it('fails with missing parameters', () => request(app)
-      .post('/api/auth/login')
+      .post('/api/v2/auth/login')
       .send({})
       .set('Accept', 'application/json')
       .expect(400)
@@ -104,7 +100,7 @@ describe('auth routes', () => {
     );
 
     it('fails with an invalid email', () => request(app)
-      .post('/api/auth/login')
+      .post('/api/v2/auth/login')
       .send({ login: 'john', pwd: '12345' })
       .set('Accept', 'application/json')
       .expect(400)
@@ -116,7 +112,7 @@ describe('auth routes', () => {
     );
 
     it('fails with a short password', () => request(app)
-      .post('/api/auth/login')
+      .post('/api/v2/auth/login')
       .send({ login: 'john@example.com', pwd: '123' })
       .set('Accept', 'application/json')
       .expect(400)
@@ -128,7 +124,7 @@ describe('auth routes', () => {
     );
 
     it('fails with non-existing email', () => request(app)
-      .post('/api/auth/login')
+      .post('/api/v2/auth/login')
       .send({ login: 'john@example.com', pwd: 'abc12' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -136,7 +132,7 @@ describe('auth routes', () => {
     );
 
     it('fails with incorrect password', () => request(app)
-      .post('/api/auth/login')
+      .post('/api/v2/auth/login')
       .send({ login: 'rose@example.com', pwd: 'zzzzz' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -144,7 +140,7 @@ describe('auth routes', () => {
     );
 
     it('succeeds with correct credentials', () => request(app)
-      .post('/api/auth/login')
+      .post('/api/v2/auth/login')
       .send({ login: 'rose@example.com', pwd: 'abc12' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)

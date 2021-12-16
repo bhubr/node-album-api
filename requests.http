@@ -1,32 +1,36 @@
 # Album API requests
 
-### Create a post
+### Create a post - v1
 POST http://localhost:5200/api/posts
-Content-Type: application/json
-
-{
-  "picture": "https://unsplash.com/photos/JH0wCegJsrQ/download?force=true&w=640",
-  "title": "La nuit",
-  "description": "C'est beau une ville la nuit !"
-}
-
-### Create a post
-POST https://album-api.benoithubert.me/api/posts
 Content-Type: application/json
 
 { "title": "Mount Fuji", "description": "Picture by Clay Banks / unsplash.com", "picture": "https://unsplash.com/photos/u27Rrbs9Dwc/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTQxMDA1&force=true&w=640" }
 
-
-### Get all posts
-GET https://album-api.benoithubert.me/api/posts
-
-
-### Get one post
+### Get one post - v1
 GET http://localhost:5200/api/posts/100
 
+### Delete one post - v1
+DELETE http://localhost:5200/api/posts/2
 
-### Get one post
-GET https://album-api.benoithubert.me/api/posts/1
 
-### Delete one post
+
+### Register a user - v2
+POST http://localhost:5200/api/v2/auth/register
+Content-Type: application/json
+
+{ "title": "Mount Fuji", "description": "Picture by Clay Banks / unsplash.com", "picture": "https://unsplash.com/photos/u27Rrbs9Dwc/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTQxMDA1&force=true&w=640" }
+
+### Login - v2
+POST http://localhost:5200/api/v2/auth/login
+Content-Type: application/json
+
+{ "title": "Mount Fuji", "description": "Picture by Clay Banks / unsplash.com", "picture": "https://unsplash.com/photos/u27Rrbs9Dwc/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTQxMDA1&force=true&w=640" }
+
+### Create a post - v2
+POST http://localhost:5200/api/posts
+Content-Type: application/json
+
+{ "title": "Mount Fuji", "description": "Picture by Clay Banks / unsplash.com", "picture": "https://unsplash.com/photos/u27Rrbs9Dwc/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTQxMDA1&force=true&w=640" }
+
+### Delete one post - v2
 DELETE http://localhost:5200/api/posts/2

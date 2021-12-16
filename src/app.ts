@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
-import { createConnection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
 import { Post } from './entity/Post';
 
 import './env';
@@ -26,6 +26,6 @@ app.use('/api', apiRouter);
 
 export default app;
 
-export async function initializeConnection() {
-  const connection = await createConnection();
+export function initializeConnection(): Promise<Connection> {
+  return createConnection();
 }

@@ -36,15 +36,16 @@ router.post(
 
     const { login: email, pwd } = req.body;
     const userRepository = getRepository(User);
+    const users = await userRepository.find({ email });
+    if (users.length > 0) {
+      return res.status(409).send(errorHelper('Email already exists'));
+    }
     const password = await hash(pwd, 14);
     const user = userRepository.create({ email, password });
     try {
       await userRepository.save(user);
       return res.status(201).send({});
     } catch (err) {
-      if (err.code === 'ER_DUP_ENTRY') {
-        return res.status(409).send(errorHelper('Email already exists'));
-      }
       return res.status(500).send(errorHelper(err.message));
     }
 });
@@ -63,7 +64,7 @@ router.post(
 
     const { login: email, pwd: password } = req.body;
     const userRepository = getRepository(User);
-    const users = await userRepository.find({ email: email });
+    const users = await userRepository.find({ email });
     if (users.length === 0) {
       return res.status(401).send(errorHelper('Invalid credentials'))
     }
