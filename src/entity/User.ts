@@ -8,7 +8,7 @@ export class User {
   @Column('int', { nullable: true })
   githubId: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   email: string;
 
   @Column('varchar', { nullable: false , length: 60 })
