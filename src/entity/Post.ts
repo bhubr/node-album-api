@@ -18,7 +18,7 @@ export class Post {
   @Column()
   picture: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 0 })
   likes: number;
 
   @CreateDateColumn()
