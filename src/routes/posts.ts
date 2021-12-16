@@ -4,25 +4,11 @@ import { getRepository } from 'typeorm';
 import { Post } from '../entity/Post';
 import { Tag } from '../entity/Tag';
 import jwtMiddleware from '../middlewares/jwt';
-import postService from '../services/post.service';
+import postController from '../controllers/post.controller';
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
-  try {
-    const userId = req?.user?.id;
-    const { title, description, picture, tags } = req.body;
-    const post = await postService.createPost({
-      userId, title, description, picture, tags
-    });
-    res.send(post);
-  } catch (err) {
-    console.error('Error while creating post', err.message);
-    return res.status(500).json({
-      error: err.message,
-    });
-  }
-});
+router.post('/', postController.create);
 
 router.get('/', async (req, res) => {
   try {

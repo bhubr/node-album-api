@@ -1,8 +1,8 @@
 import { getConnection, getRepository } from 'typeorm';
-import { initializeConnection } from '../src/app';
-import { User } from '../src/entity/User';
-import { Post } from '../src/entity/Post';
-import { Tag } from '../src/entity/Tag';
+import { initializeConnection } from '../../src/app';
+import { User } from '../../src/entity/User';
+import { Post } from '../../src/entity/Post';
+import { Tag } from '../../src/entity/Tag';
 
 export async function mochaGlobalSetup() {
   if (process.env.NODE_ENV !== 'test') {

@@ -1,22 +1,7 @@
 import { expect } from 'chai';
-import request from 'supertest';
-import { getRepository } from 'typeorm';
-import { hash } from 'bcryptjs';
 import jwtDecode from 'jwt-decode';
 
-import app from '../src/app';
-import { User } from '../src/entity/User';
-import { postRequest } from './request-helpers';
-
-const createUser = async (email, clearPassword) => {
-  const repository = getRepository(User);
-  const password = await hash(clearPassword, 8);
-  const user = repository.create({
-    email,
-    password,
-  });
-  await repository.save(user);
-};
+import { postRequest, createUser } from './support/helpers';
 
 describe('auth routes', () => {
   // Register route

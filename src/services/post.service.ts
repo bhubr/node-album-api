@@ -2,9 +2,12 @@ import slug from 'slug';
 import { getRepository } from 'typeorm';
 import { Post } from '../entity/Post';
 import { Tag } from '../entity/Tag';
+import { User } from '../entity/User';
+
+type PostWithUserId = Post & { userId?: number };
 
 export default {
-  async createPost({ userId, title, description, picture, tags }): Promise<Post> {
+  async createPost({ userId, title, description, picture, tags }): Promise<PostWithUserId> {
     let allTagRecords;
     if (tags) {
       const tagRepository = getRepository(Tag);
@@ -32,8 +35,18 @@ export default {
     if (allTagRecords) {
       post.tags = allTagRecords;
     }
+    if (userId) {
+      const userRepository = getRepository(User);
+      post.user = await userRepository.findOne(userId);
+    }
     await postRepository.save(post);
-    return post;
+
+    const postWithUserId: PostWithUserId = { ...post }; 
+    if (post.user) {
+      postWithUserId.userId = post.user.id;
+      delete postWithUserId.user;
+    }
+    return postWithUserId;
   }
 }
 
