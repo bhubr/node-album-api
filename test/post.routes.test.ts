@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode';
 
 import { User } from '../src/entity/User';
 import { Post } from '../src/entity/Post';
-import { postRequest, createAndLoginUser } from './support/helpers';
+import { postRequest, getRequest, createAndLoginUser } from './support/helpers';
 
 
 describe('post routes', () => {
@@ -16,6 +16,19 @@ describe('post routes', () => {
       }, 201).then((res: any) => {
         expect(res.body.title).to.equal('W3C');
       }));
+
+
+    it('fails with a string id', () =>
+      getRequest('/posts/not-a-string', 400).then((res: any) => {
+        // expect(res.body.title).to.equal('W3C');
+      }));
+
+
+
+    it('fails with a non-existing post id without auth', () =>
+    getRequest('/posts/10000', 404).then((res: any) => {
+      // expect(res.body.title).to.equal('W3C');
+    }));
 
   });
   describe('v2', () => {

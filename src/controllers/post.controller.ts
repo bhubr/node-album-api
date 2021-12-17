@@ -38,6 +38,13 @@ export default {
   async findOne(req, res) {
     try {
       const postId = Number(req.params.id);
+      if (Number.isNaN(postId)) {
+        return res.status(400).send({
+          errors: [
+            { message: `Invalid post id ${req.params.id}` }
+          ]
+        })
+      }
       const postRepository = getRepository(Post);
       const post: Post = await postRepository.findOne(postId);
       if (!post) {

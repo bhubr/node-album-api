@@ -15,7 +15,21 @@ export const postRequest = (path: string, data: any, expectedCode: number, token
   if (token) {
     p.set('Authorization', `Bearer ${token}`);
   }
-    
+
+  return p
+    .expect(expectedCode)
+    .expect('Content-Type', /json/);
+}
+
+export const getRequest = (path: string, expectedCode: number, token?: string) => {
+  const p = request(app)
+    .get(`/api${path}`)
+    .set('Accept', 'application/json')
+
+  if (token) {
+    p.set('Authorization', `Bearer ${token}`);
+  }
+
   return p
     .expect(expectedCode)
     .expect('Content-Type', /json/);
