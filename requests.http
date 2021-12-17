@@ -27,7 +27,7 @@ Content-Type: application/json
 { "title": "Mount Fuji", "description": "Picture by Clay Banks / unsplash.com", "picture": "https://unsplash.com/photos/u27Rrbs9Dwc/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTQxMDA1&force=true&w=640" }
 
 ### Create a post - v2
-POST http://localhost:5200/api/posts
+POST http://localhost:5200/api/v2/posts
 Content-Type: application/json
 
 { "title": "Mount Fuji", "description": "Picture by Clay Banks / unsplash.com", "picture": "https://unsplash.com/photos/u27Rrbs9Dwc/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTQxMDA1&force=true&w=640" }
