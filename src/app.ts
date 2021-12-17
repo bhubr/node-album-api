@@ -24,6 +24,14 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use('/api', apiRouter);
 
+app.use(function(err, req, res, next) {
+  if(err.name === 'UnauthorizedError') {
+    res.status(err.status).send({ message:err.message });
+    return;
+  }
+  next();
+});
+
 export default app;
 
 export function initializeConnection(): Promise<Connection> {

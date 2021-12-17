@@ -20,6 +20,16 @@ describe('post routes', () => {
   });
   describe('v2', () => {
     it('creates a post without auth', async () => {
+      const { id, jwt } = await createAndLoginUser('badposter@example.com', '12345');
+      return postRequest('/v2/posts', {
+        title: 'W3C', description: 'World Wide Web Consortium (W3C)', picture: 'https://www.w3.org/2008/site/images/logo-w3c-screen-lg',
+      }, 401).then((res: any) => {
+        // expect(res.body.title).to.equal('W3C');
+        // expect(res.body.userId).to.equal(id);
+      })
+    });
+
+    it('creates a post with auth', async () => {
       const { id, jwt } = await createAndLoginUser('poster@example.com', '12345');
       return postRequest('/v2/posts', {
         title: 'W3C', description: 'World Wide Web Consortium (W3C)', picture: 'https://www.w3.org/2008/site/images/logo-w3c-screen-lg',
