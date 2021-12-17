@@ -78,7 +78,7 @@ router.post(
     const { id, email: login } = user;
     const token = await sign({ id, login }, process.env.JWT_SECRET);
 
-    return res.status(200).send({ token });
+    return res.status(200).send({ token, user: { id, login } });
 });
 
 export default router;

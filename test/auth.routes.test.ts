@@ -102,10 +102,13 @@ describe('auth routes', () => {
         { login: 'rose@example.com', pwd: 'abc12' },
         200
       ).then((res: any) => {
-        const { token } = res.body;
+        const { token, user } = res.body;
         expect(token).to.be.a('string');
         const { login } = jwtDecode(token) as { login: string };
         expect(login).to.equal('rose@example.com');
+        expect(user).not.to.equal(undefined);
+        expect(user.id).to.be.a('number');
+        expect(user.login).to.be.a('string');
       }));
   });
 });
