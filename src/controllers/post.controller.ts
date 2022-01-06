@@ -86,12 +86,20 @@ export default {
     try {
       const postId = Number(req.params.id);
       const postRepository = getRepository(Post);
-      const { affected } = await postRepository.delete(postId);
-      if (affected === 0) {
+      const post: Post = await postRepository.findOne(postId, {
+        relations: ['user'],
+      });
+      if (!post) {
         return res.status(404).send({
           error: `post with id ${postId} not found`
         });
       }
+      if (req.user.id !== post.user.id) {
+        return res.status(403).send({
+          error: 'This post belongs to another user'
+        });
+      }
+      await postRepository.delete(postId);
       return res.sendStatus(204);
     } catch (err) {
       console.error('Error while requesting post', err.message);

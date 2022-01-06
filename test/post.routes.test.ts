@@ -80,6 +80,36 @@ describe('post routes', () => {
         });
       });
 
+      it('fails if deleter is not owner', async () => {
+        const { id: userId1 } = await createAndLoginUser(
+          getUserEmail(),
+          '12345'
+        );
+        const { jwt: jwt2 } = await createAndLoginUser(
+          getUserEmail(),
+          '12345'
+        );
+        const payload = await getPostPayload(userId1);
+        const { id: postId } = await postService.createPost(payload);
+        return deleteRequest(`/v2/posts/${postId}`, 403, jwt2).then(
+          (res: any) => {
+            expect(res.body.error).to.equal('This post belongs to another user');
+          }
+        );
+      });
+
+      it('fails with non-existing post', async () => {
+        const { jwt } = await createAndLoginUser(
+          getUserEmail(),
+          '12345'
+        );
+        return deleteRequest('/v2/posts/9999999', 404, jwt).then(
+          (res: any) => {
+            expect(res.body.error).to.equal('post with id 9999999 not found');
+          }
+        );
+      });
+
       it('succeeds with auth', async () => {
         const { id: userId, jwt } = await createAndLoginUser(
           getUserEmail(),
