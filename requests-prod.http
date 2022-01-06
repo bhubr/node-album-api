@@ -5,10 +5,30 @@ GET https://album-api.benoithubert.me/api/posts
 GET https://album-api.benoithubert.me/api/posts/1
 
 ### Create a post
-POST https://album-api.benoithubert.me/api/posts
+POST https://album-api.benoithubert.me/api/v2/posts
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibG9naW4iOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNjM5NzI4NTQ0fQ.wA4hPL07PxpEUDeClQTWDt-BppFkGqupOcMaQeSkq4k
 
 { "title": "Mount Fuji", "description": "Picture by Clay Banks / unsplash.com", "picture": "https://unsplash.com/photos/u27Rrbs9Dwc/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTQxMDA1&force=true&w=640" }
 
 ### Delete one post
-DELETE https://album-api.benoithubert.me/api/posts/22
+DELETE https://album-api.benoithubert.me/api/v2/posts/29
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibG9naW4iOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNjM5NzI4NTQ0fQ.wA4hPL07PxpEUDeClQTWDt-BppFkGqupOcMaQeSkq4k
+
+### Register a user
+POST https://album-api.benoithubert.me/api/v2/auth/register
+Content-Type: application/json
+
+{
+  "login": "johndoe2@example.com",
+  "pwd": "abcde"
+}
+
+### Authenticate a user
+POST https://album-api.benoithubert.me/api/v2/auth/login
+Content-Type: application/json
+
+{
+  "login": "toto3@example.com",
+  "pwd": "toto3"
+}
