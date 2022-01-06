@@ -5,7 +5,7 @@ import { hash, compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 import { User } from '../entity/User';
-import jwtMiddleware from '../middlewares/jwt'
+import jwtMiddleware from '../middlewares/jwt';
 
 const router = express.Router();
 
@@ -17,10 +17,22 @@ router.get('/user', jwtMiddleware, async (req, res) => {
 const errorHelper = (msg: string) => ({
   errors: [
     {
-      msg
-    }
-  ]
-})
+      msg,
+    },
+  ],
+});
+
+const translateError = ({ param, ...rest }) => {
+  const messages = {
+    login: 'login must contain a valid email address',
+    pwd: 'pwd must be a string of at least 5 characters'
+  }
+  return {
+    param,
+    ...rest,
+    msg: messages[param],
+  }
+}
 
 router.post(
   '/register',
@@ -31,7 +43,9 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res
+        .status(400)
+        .json({ errors: errors.array().map(translateError) });
     }
 
     const { login: email, pwd } = req.body;
@@ -48,7 +62,8 @@ router.post(
     } catch (err) {
       return res.status(500).send(errorHelper(err.message));
     }
-});
+  }
+);
 
 router.post(
   '/login',
@@ -59,26 +74,29 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res
+        .status(400)
+        .json({ errors: errors.array().map(translateError) });
     }
 
     const { login: email, pwd: password } = req.body;
     const userRepository = getRepository(User);
     const users = await userRepository.find({ email });
     if (users.length === 0) {
-      return res.status(401).send(errorHelper('Invalid credentials'))
+      return res.status(401).send(errorHelper('Invalid credentials'));
     }
 
     const [user] = users;
     const ok = await compare(password, user.password);
     if (!ok) {
-      return res.status(401).send(errorHelper('Invalid credentials'))
+      return res.status(401).send(errorHelper('Invalid credentials'));
     }
 
     const { id, email: login } = user;
     const token = await sign({ id, login }, process.env.JWT_SECRET);
 
     return res.status(200).send({ token, user: { id, login } });
-});
+  }
+);
 
 export default router;
