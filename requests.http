@@ -31,6 +31,12 @@ Content-Type: application/json
 
 { "login": "abc@def.com", "pwd": "abcde" }
 
+### Create a post - v2 - NO AUTH
+POST http://localhost:5200/api/v2/posts
+Content-Type: application/json
+
+{ "title": "Landscape in Iceland", "description": "Picture by @danielsessler", "picture": "https://unsplash.com/photos/1IdbT_tio1Y/download?ixid=MnwxMjA3fDB8MXxhbGx8MTJ8fHx8fHwyfHwxNjQxNDk5MjMz&force=true&w=640" }
+
 ### Create a post - v2
 POST http://localhost:5200/api/v2/posts
 Content-Type: application/json

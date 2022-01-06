@@ -1,4 +1,4 @@
-import { getConnection, getRepository } from 'typeorm';
+import { getConnection, getRepository, getManager } from 'typeorm';
 import { initializeConnection } from '../../src/app';
 import { User } from '../../src/entity/User';
 import { Post } from '../../src/entity/Post';
@@ -9,6 +9,7 @@ export async function mochaGlobalSetup() {
     throw new Error('** Run tests with NODE_ENV=test');
   }
   const connection = await initializeConnection();
+  const entityManager = getManager();
 
   await connection.query('SET foreign_key_checks = 0');
   const userRepository = getRepository(User);
@@ -17,6 +18,7 @@ export async function mochaGlobalSetup() {
   await postRepository.clear();
   const tagRepository = getRepository(Tag);
   await tagRepository.clear();
+  await entityManager.query('TRUNCATE post_tags_tag');
   await connection.query('SET foreign_key_checks = 1');
 };
 
