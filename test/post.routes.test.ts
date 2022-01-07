@@ -69,6 +69,25 @@ describe('post routes', () => {
         );
       });
     });
+
+    describe('get one post', async () => {
+      it('get posts with tags and user', async () => {
+        const { id: userId } = await createAndLoginUser(
+          getUserEmail(),
+          '12345'
+        );
+        const payload = getPostPayload(userId);
+        const p = await postService.createPost(payload)
+        
+        return getRequest(`/v2/posts/${p.id}`, 200).then(
+          (res: any) => {
+            expect(Array.isArray(res.body.tags)).to.equal(true);
+            expect(res.body.user.id).to.equal(userId);
+            expect(res.body.user.password).to.equal(undefined);
+          }
+        );
+      });
+    });
     describe('create a post', () => {
       it('fails without auth', async () => {
         return postRequest(

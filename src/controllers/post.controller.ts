@@ -30,7 +30,7 @@ export default {
       const postsWithMappedUser = posts.map(({ user, ...p }) => ({
         ...p,
         user: user && {
-          id: user.id, login: user.email, avatar: user.avatar,
+          id: user.id, email: user.email, avatar: user.avatar,
         }
       }))
       res.send(postsWithMappedUser);
@@ -53,12 +53,16 @@ export default {
         })
       }
       const postRepository = getRepository(Post);
-      const post: Post = await postRepository.findOne(postId);
+      const post: Post = await postRepository.findOne(postId, {
+        relations: ['tags', 'user']
+      });
       if (!post) {
         return res.status(404).send({
           error: `post with id ${postId} not found`
         });
       }
+      delete post.user.password;
+      delete post.user.githubId;
       return res.send(post);
     } catch (err) {
       console.error('Error while requesting post', err);
