@@ -46,7 +46,9 @@ export default {
 
       await userRepository.save(user);
 
-      res.status(200).send(user);
+      const { password, ...rest } = user;
+
+      res.status(200).send(rest);
     } catch (err) {
       console.error('Error while creating post', err.message);
       return res.status(500).json({
