@@ -2,14 +2,31 @@ import request from 'supertest';
 import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import { stat } from 'fs/promises';
 
 import app from '../../src/app';
 import { User } from '../../src/entity/User';
-import { Post } from '../../src/entity/Post';
+
+// So much duplication in here! Bad Dobby!
 
 export const postRequest = (path: string, data: any, expectedCode: number, token?: string) => {
   const p = request(app)
     .post(`/api${path}`)
+    .send(data)
+    .set('Accept', 'application/json')
+
+  if (token) {
+    p.set('Authorization', `Bearer ${token}`);
+  }
+
+  return p
+    .expect(expectedCode)
+    .expect('Content-Type', /json/);
+}
+
+export const putRequest = (path: string, data: any, expectedCode: number, token?: string) => {
+  const p = request(app)
+    .put(`/api${path}`)
     .send(data)
     .set('Accept', 'application/json')
 
@@ -94,3 +111,7 @@ export const getUserEmail = (() => {
     return `user${idStr}@example.com`;
   }
 })();
+
+export const fileExists = (filename) => stat(filename)
+  .then(() => true)
+  .catch(() => false)

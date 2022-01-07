@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import { resolve } from 'path';
 import cookieParser from 'cookie-parser';
 import { createConnection, Connection } from 'typeorm';
 import { Post } from './entity/Post';
@@ -10,6 +11,7 @@ import './env';
 import apiRouter from './routes';
 
 const app = express();
+const avatarsDir = resolve(__dirname, '..', 'public');
 app.use(
   cors({
     credentials: true,
@@ -17,6 +19,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(express.static(avatarsDir));
 app.use(cookieParser());
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));

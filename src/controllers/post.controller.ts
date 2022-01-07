@@ -13,7 +13,7 @@ export default {
       });
       res.status(201).send(post);
     } catch (err) {
-      console.error('Error while creating post', err.message);
+      console.error('Error while creating post', err);
       return res.status(500).json({
         error: err.message,
       });
@@ -28,7 +28,7 @@ export default {
       });
       res.send(posts);
     } catch (err) {
-      console.error('Error while requesting posts', err.message);
+      console.error('Error while requesting posts', err);
       return res.status(500).json({
         error: err.message,
       });
@@ -54,7 +54,7 @@ export default {
       }
       return res.send(post);
     } catch (err) {
-      console.error('Error while requesting post', err.message);
+      console.error('Error while requesting post', err);
       return res.status(500).json({
         error: err.message,
       });
@@ -75,7 +75,7 @@ export default {
       await postRepository.save(post);
       return res.send(post);
     } catch (err) {
-      console.error('Error while requesting post', err.message);
+      console.error('Error while liking post', err);
       return res.status(500).json({
         error: err.message,
       });
@@ -102,7 +102,7 @@ export default {
       await postRepository.delete(postId);
       return res.sendStatus(204);
     } catch (err) {
-      console.error('Error while requesting post', err.message);
+      console.error('Error while deleting post', err);
       return res.status(500).json({
         error: err.message,
       });
