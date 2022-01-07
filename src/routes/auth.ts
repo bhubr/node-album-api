@@ -92,10 +92,10 @@ router.post(
       return res.status(401).send(errorHelper('Invalid credentials'));
     }
 
-    const { id, email: login } = user;
-    const token = await sign({ id, login }, process.env.JWT_SECRET);
+    const { id, email: login, avatar } = user;
+    const token = await sign({ id, login, avatar }, process.env.JWT_SECRET);
 
-    return res.status(200).send({ token, user: { id, login } });
+    return res.status(200).send({ token, user: { id, login, avatar } });
   }
 );
 
