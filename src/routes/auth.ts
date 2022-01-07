@@ -93,7 +93,8 @@ router.post(
     }
 
     const { id, email: login, avatar } = user;
-    const token = await sign({ id, login, avatar }, process.env.JWT_SECRET);
+    const lifetimeSecs = Number(process.env.JWT_LIFETIME_SECS || '3600')
+    const token = await sign({ id, login, avatar }, process.env.JWT_SECRET, { expiresIn: lifetimeSecs });
 
     return res.status(200).send({ token, user: { id, login, avatar } });
   }

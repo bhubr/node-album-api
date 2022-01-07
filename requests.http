@@ -47,7 +47,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibG9naW4iO
 ### Create a post with tags - v2
 POST http://localhost:5200/api/v2/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibG9naW4iOiJhYmNAZGVmLmNvbSIsImlhdCI6MTY0MTUwMDEzMX0.ZBaq5opQcu56QI_zfTNtfjPvkro6hrvxhcela10Ach8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibG9naW4iOiJhYmNAZGVmLmNvbSIsImF2YXRhciI6bnVsbCwiaWF0IjoxNjQxNTU5MzU5LCJleHAiOjE2NDE1NTk0MTl9.fjNMclBr0lP2F67B_ORS0LMsX2CGtOGqRj9VSOGYroc
 
 { "title": "Landmannalaugar - Iceland", "description": "In Landmannalaugar there are rhyolite mountains. Rhyolite is a felsic extrusive rock. (I have no idea what that is)", "picture": "https://i.imgur.com/WCzfMMt.jpeg", "tags": "iceland,mountains" }
 
