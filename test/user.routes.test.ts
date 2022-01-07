@@ -81,7 +81,7 @@ describe('user routes', () => {
           jwt
         ).then(async (res: any) => {
           expect(res.body.email).to.equal('updated02@example.com');
-          expect(res.body.avatar).to.equal('/avatars/avatar-13.png');
+          expect(res.body.avatar).to.equal(`/avatars/avatar-${id}.png`);
           expect(res.body.password).to.equal(undefined);
           expect(await fileExists(fullPath)).to.equal(true);
         });

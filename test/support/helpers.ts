@@ -95,7 +95,7 @@ export const createAndLoginUser = async (email, clearPassword): Promise<IdToken>
 //   return repository.save(post);
 // };
 
-export const getPostPayload = async (userId: number) => ({
+export const getPostPayload = (userId: number) => ({
   userId,
   title: `Test ${Math.random()}`,
   description: 'Test post',

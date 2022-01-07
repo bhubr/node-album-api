@@ -1,3 +1,4 @@
+import { use } from 'chai';
 import { getRepository } from 'typeorm';
 
 import { Post } from '../entity/Post';
@@ -24,9 +25,15 @@ export default {
     try {
       const postRepository = getRepository(Post);
       const posts: Post[] = await postRepository.find({
-        relations: ['tags']
+        relations: ['tags', 'user']
       });
-      res.send(posts);
+      const postsWithMappedUser = posts.map(({ user, ...p }) => ({
+        ...p,
+        user: user && {
+          id: user.id, login: user.email, avatar: user.avatar,
+        }
+      }))
+      res.send(postsWithMappedUser);
     } catch (err) {
       console.error('Error while requesting posts', err);
       return res.status(500).json({

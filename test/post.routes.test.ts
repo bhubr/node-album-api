@@ -1,3 +1,4 @@
+import { getRepository } from 'typeorm';
 import { expect } from 'chai';
 import {
   postRequest,
@@ -9,6 +10,7 @@ import {
   getUserEmail,
 } from './support/helpers';
 import postService from '../src/services/post.service';
+import { Post } from '../src/entity/Post';
 
 describe('post routes', () => {
   describe('v1', () => {
@@ -36,6 +38,37 @@ describe('post routes', () => {
       }));
   });
   describe('v2', () => {
+    describe('get all posts', async () => {
+      it('get posts with tags', async () => {
+        const { id: userId1 } = await createAndLoginUser(
+          getUserEmail(),
+          '12345'
+        );
+        const { id: userId2 } = await createAndLoginUser(
+          getUserEmail(),
+          '12345'
+        );
+        const postPayloads = new Array(30).fill(0)
+        .map((_, i) => {
+          let userId
+          if (i < 10) userId = userId1
+          else if (i < 20) userId = userId2
+          return getPostPayload(userId);
+        })
+        const postRepository = getRepository(Post);
+        const postsBefore = await postRepository.find();
+        await Promise.all(
+          postPayloads.map(p => postService.createPost(p))
+        )
+        
+        return getRequest('/v2/posts', 200).then(
+          (res: any) => {
+            expect(Array.isArray(res.body)).to.equal(true);
+            expect(res.body.length).to.equal(30 + postsBefore.length);
+          }
+        );
+      });
+    });
     describe('create a post', () => {
       it('fails without auth', async () => {
         return postRequest(
