@@ -30,6 +30,7 @@ export default {
       await commentRepository.save(comment);
       delete comment.user.password;
       delete comment.post.user.password;
+      await WebSocketHandler.getInstance().notifyComment(post.user.id, comment.user, post);
       res.status(201).send(comment);
     } catch (err) {
       console.error('Error while creating post', err);

@@ -41,4 +41,12 @@ export default class WebSocketHandler {
     }
     this.map.get(uid).send(JSON.stringify({ type: 'post:like', user, post }))
   }
+
+  async notifyComment(uid: number, user: Partial<User>, post: Partial<Post>) {
+    const ws = this.map.get(uid);
+    if (!ws) {
+      return
+    }
+    this.map.get(uid).send(JSON.stringify({ type: 'post:comment', user, post }))
+  }
 }
