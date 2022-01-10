@@ -1,4 +1,3 @@
-import { use } from 'chai';
 import { getRepository } from 'typeorm';
 
 import { Post } from '../entity/Post';
