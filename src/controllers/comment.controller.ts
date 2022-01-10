@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm';
 import { User } from '../entity/User';
 import { Post } from '../entity/Post';
 import { Comment } from '../entity/Comment';
+import { Notification, NotificationType } from '../entity/Notification';
 import WebSocketHandler from '../ws';
 
 export default {
@@ -21,15 +22,28 @@ export default {
         });
       }
       const commentRepository = getRepository(Comment);
-      const comment = commentRepository.create({
+      const comment: Comment = commentRepository.create({
         text
       })
       const userRepository = getRepository(User);
       comment.post = post;
-      comment.user = await userRepository.findOne(userId);
+      const user = await userRepository.findOne(userId);
+      if (!user) {
+        return res.status(404).send({
+          error: `user with id ${userId} not found`
+        });
+      }
+      comment.user = user;
       await commentRepository.save(comment);
       delete comment.user.password;
       delete comment.post.user.password;
+      const notifRepository = getRepository(Notification);
+      const notif = notifRepository.create({
+        user,
+        type: NotificationType.COMMENT,
+        data: JSON.stringify({ user: req.user, post })
+      })
+      await notifRepository.save(notif);
       await WebSocketHandler.getInstance().notifyComment(post.user.id, comment.user, post);
       res.status(201).send(comment);
     } catch (err) {

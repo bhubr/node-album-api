@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import { Post } from '../entity/Post';
+import { Notification, NotificationType } from '../entity/Notification';
 import postService from '../services/post.service';
 import WebSocketHandler from '../ws';
 
@@ -86,6 +87,13 @@ export default {
       }
       post.likes += 1;
       await postRepository.save(post);
+      const notifRepository = getRepository(Notification);
+      const notif = notifRepository.create({
+        user: post.user,
+        type: NotificationType.LIKE,
+        data: JSON.stringify({ user: req.user, post })
+      })
+      await notifRepository.save(notif);
       WebSocketHandler.getInstance().notifyLike(post.user.id, req.user, post);
       return res.send(post);
     } catch (err) {

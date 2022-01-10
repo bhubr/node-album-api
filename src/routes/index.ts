@@ -5,6 +5,7 @@ import authRouter from './auth';
 import postsRouter from './posts';
 import commentsRouter from './comments';
 import usersRouter from './users';
+import notificationsRouter from './notifications';
 import protectedPostsRouter from './posts-protected';
 
 const router = express.Router();
@@ -15,5 +16,6 @@ router.use('/posts', postsRouter);
 router.use('/v2/posts', commentsRouter);
 router.use('/v2/posts', protectedPostsRouter);
 router.use('/v2/users', usersRouter);
+router.use('/v2/notifications', notificationsRouter);
 
 export default router;
