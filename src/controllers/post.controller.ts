@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm';
 
 import { Post } from '../entity/Post';
 import postService from '../services/post.service';
+import WebSocketHandler from '../ws';
 
 export default {
   async create(req, res) {
@@ -76,7 +77,9 @@ export default {
     try {
       const postId = Number(req.params.id);
       const postRepository = getRepository(Post);
-      const post: Post = await postRepository.findOne(postId);
+      const post: Post = await postRepository.findOne(postId, {
+        relations: ['user']
+      });
       if (!post) {
         return res.status(404).send({
           error: `post with id ${postId} not found`
@@ -84,6 +87,7 @@ export default {
       }
       post.likes += 1;
       await postRepository.save(post);
+      WebSocketHandler.getInstance().notifyLike(post.user.id, req.user, post);
       return res.send(post);
     } catch (err) {
       console.error('Error while liking post', err);
