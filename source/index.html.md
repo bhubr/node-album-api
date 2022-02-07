@@ -68,7 +68,7 @@ fetch('https://album-api.benoithubert.me/api/v2/posts/11', {
 Ce JWT aura été préalablement obtenu via une requête de "login" (voir "Endpoints authentification" puis "Authentifier un utilisateur").
 
 <aside class="notice">
-Remplacez <code>JWT<code> par votre JSON Web Token.
+Remplacez <code>JWT</code> par votre JSON Web Token.
 </aside>
 
 # Endpoints authentification
