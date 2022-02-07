@@ -32,7 +32,15 @@ Bienvenue sur l'API Album ! Vous pouvez accéder à différents endpoints permet
 
 Cette documentation a été écrite en Markdown, et convertie en HTML avec [Slate](https://github.com/slatedocs/slate).
 
-# Authentication
+# URL de base de l'API
+
+L'API est déployée à l'URL <https://album-api.benoithubert.me>.
+
+**Tous les endpoints** décrits ci-dessous sont **relatifs à cette origine**.
+
+# Endpoints d'authentification
+
+
 
 > To authorize, use this code:
 

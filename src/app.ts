@@ -27,6 +27,13 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use('/api', apiRouter);
 
+const docsRoot = process.env.DOCS_ROOT;
+if (docsRoot) {
+  const isAbsolute = docsRoot.startsWith('/');
+  const docsPath = isAbsolute ? docsRoot : resolve(__dirname, docsRoot);
+  app.use(express.static(docsPath));
+}
+
 app.use(function(err, req, res, next) {
   if(err.name === 'UnauthorizedError') {
     res.status(err.status).send({ message:err.message });
