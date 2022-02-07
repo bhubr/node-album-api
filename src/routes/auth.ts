@@ -11,7 +11,8 @@ const router = express.Router();
 
 router.get('/user', jwtMiddleware, async (req, res) => {
   const { user } = req;
-  res.send(user);
+  const { iat, ...rest } = user;
+  res.send(rest);
 });
 
 const errorHelper = (msg: string) => ({

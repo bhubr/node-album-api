@@ -65,13 +65,13 @@ fetch('https://album-api.benoithubert.me/api/v2/posts/11', {
 
 `Bearer JWT`
 
-Ce JWT aura été préalablement obtenu via une requête de "login" (voir "Endpoints d'authentification" puis "Authentifier un utilisateur").
+Ce JWT aura été préalablement obtenu via une requête de "login" (voir "Endpoints authentification" puis "Authentifier un utilisateur").
 
 <aside class="notice">
 Remplacez <code>JWT<code> par votre JSON Web Token.
 </aside>
 
-# Endpoints d'authentification
+# Endpoints authentification
 
 ## Inscrire un nouvel utilisateur
 
@@ -141,7 +141,7 @@ fetch('https://album-api.benoithubert.me/api/v2/auth/login', {
   body: JSON.stringify(payload)
 })
   .then(res => res.json())
-  .then(data => { /* success! data is an empty object */ })
+  .then(data => { /* success! data contains token and user */ })
 ```
 
 > Les requêtes ci-dessus renvoient un JSON structuré comme ceci :
@@ -161,7 +161,7 @@ Ce endpoint permet d'authentifier un utilisateur déjà inscrit.
 
 ### Requête HTTP
 
-`POST https://album-api.benoithubert.me/api/v2/auth/register`
+`POST https://album-api.benoithubert.me/api/v2/auth/login`
 
 ### Champs du corps de requête
 
@@ -178,7 +178,46 @@ pwd       | oui    | Mot de passe (5 caractères MINIMUM)
 
 ## Obtenir les informations de l'utilisateur
 
+> Remplacer JWT par votre token obtenu après login :
 
+```shell
+curl "https://album-api.benoithubert.me/api/v2/auth/user" \
+  -k \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer JWT"
+```
+
+```javascript
+fetch('https://album-api.benoithubert.me/api/v2/auth/user', {
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${JWT}`
+  }
+})
+  .then(res => res.json())
+  .then(user => { /* success! user contains user info */ })
+```
+
+> Les requêtes ci-dessus renvoient un JSON structuré comme ceci :
+
+```json
+{
+  "id": 5,
+  "login": "foobar82@example.com",
+  "avatar": null
+}
+```
+
+Ce endpoint permet de récupérer les données d'un utilisateur. **Il nécessite le passage d'un JWT** dans le header `Authorization`.
+
+### Requête HTTP
+
+`GET https://album-api.benoithubert.me/api/v2/auth/user`
+
+### Codes de retour HTTP
+
+* `200` : succès
+* `401` : JSON Web Token
 
 ## Get a Specific Kitten
 
