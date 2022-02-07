@@ -38,9 +38,9 @@ L'API est déployée à l'URL <https://album-api.benoithubert.me>.
 
 **Tous les endpoints** décrits ci-dessous sont **relatifs à cette origine**.
 
-# Endpoints d'authentification
+# Authentification
 
-
+**Certains endpoints** requièrent un JSON Web Token placé dans le header `Authorization`.
 
 > To authorize, use this code:
 
@@ -80,64 +80,42 @@ Kittn expects for the API key to be included in all API requests to the server i
 You must replace <code>meowmeowmeow</code> with your personal API key.
 </aside>
 
-# Kittens
+# Authentification
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+## Inscrire un nouvel utilisateur
 
 ```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
+curl "https://album-api.benoithubert.me/api/v2/auth/register" \
+  -H "Content-Type: application/json" \
+  -d '{"login":"foobar@example.com","pwd":"FooB1"}'
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+const payload = { login: 'foobar@example.com', pwd: 'FooB1' };
+fetch('https://album-api.benoithubert.me/api/v2/auth/register', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(payload)
+})
+  .then(res => res.json())
+  .then(data => { /* success! data is an empty object */ })
 ```
 
-> The above command returns JSON structured like this:
+> Les requêtes ci-dessus renvoient un JSON structuré comme ceci :
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{}
 ```
 
-This endpoint retrieves all kittens.
+Ce endpoint permet d'inscrire un nouvel utilisateur.
 
-### HTTP Request
+### Requête HTTP
 
-`GET http://example.com/api/kittens`
+`POST https://album-api.benoithubert.me/api/v2/auth/register`
 
-### Query Parameters
+### Champs requis dans le corps de requête
 
 Parameter | Default | Description
 --------- | ------- | -----------
