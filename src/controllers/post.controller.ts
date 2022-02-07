@@ -82,7 +82,9 @@ export default {
     try {
       const postId = Number(req.params.id);
       const postRepository = getRepository(Post);
-      const post: Post = await postRepository.findOne(postId);
+      const post: Post = await postRepository.findOne(postId, {
+        relations: ['tags', 'user']
+      });
       if (!post) {
         return res.status(404).send({
           error: `post with id ${postId} not found`
