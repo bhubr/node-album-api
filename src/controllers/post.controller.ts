@@ -10,7 +10,7 @@ export default {
     if (!errors.isEmpty()) {
       return res
         .status(400)
-        .json({ errors });
+        .json(errors);
     }
     try {
       const userId = req?.user?.id;
