@@ -115,16 +115,71 @@ Ce endpoint permet d'inscrire un nouvel utilisateur.
 
 `POST https://album-api.benoithubert.me/api/v2/auth/register`
 
-### Champs requis dans le corps de requête
+### Champs du corps de requête
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Champ     | Requis | Description
+--------- | ------ | -----------
+login     | oui    | Adresse e-mail valide
+pwd       | oui    | Mot de passe (5 caractères MINIMUM)
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Codes de retour HTTP
+
+* `201` : succès
+* `400` : champ(s) manquant(s) ou invalides
+* `409` : adresse e-mail déjà enregistrée
+
+## Authentifier un utilisateur
+
+```shell
+curl "https://album-api.benoithubert.me/api/v2/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{"login":"foobar@example.com","pwd":"FooB1"}'
+```
+
+```javascript
+const payload = { login: 'foobar@example.com', pwd: 'FooB1' };
+fetch('https://album-api.benoithubert.me/api/v2/auth/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(payload)
+})
+  .then(res => res.json())
+  .then(data => { /* success! data is an empty object */ })
+```
+
+> Les requêtes ci-dessus renvoient un JSON structuré comme ceci :
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibG9naW4iOiJmb29iYXI4MUBleGFtcGxlLmNvbSIsImF2YXRhciI6bnVsbCwiaWF0IjoxNjQ0MjkxODcxfQ.N2FmgzNGICjrEOg5qYVgNEnAwzZu_x5Ag9ecTihNjZo",
+  "user": {
+    "id": 1,
+    "login": "foobar@example.com",
+    "avatar": null
+  }
+}
+```
+
+Ce endpoint permet d'authentifier un utilisateur déjà inscrit.
+
+### Requête HTTP
+
+`POST https://album-api.benoithubert.me/api/v2/auth/register`
+
+### Champs du corps de requête
+
+Champ     | Requis | Description
+--------- | ------ | -----------
+login     | oui    | Adresse e-mail valide
+pwd       | oui    | Mot de passe (5 caractères MINIMUM)
+
+### Codes de retour HTTP
+
+* `200` : succès
+* `400` : champ(s) manquant(s) ou invalides
+* `401` : identifiants invalides
 
 ## Get a Specific Kitten
 
