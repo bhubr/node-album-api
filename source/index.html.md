@@ -420,7 +420,7 @@ Ce endpoint permet de supprimer un post. **Il nécessite le passage d'un JWT** d
 
 ### Requête HTTP
 
-`DELETE https://album-api.benoithubert.me/api/v2/posts<ID>`
+`DELETE https://album-api.benoithubert.me/api/v2/posts/<ID>`
 
 ### Paramètres d'URL
 
@@ -433,3 +433,64 @@ ID        | ID du post à récupérer
 * `200` : Succès
 * `401` : JSON Web Token invalide ou expiré
 * `403` : Non autorisé (post appartenant à un autre utilisateur)
+
+## Liker un post
+
+> Remplacer ID par l'ID du post, JWT par votre token :
+
+```shell
+curl "https://album-api.benoithubert.me/api/v2/posts/ID/like" \
+  -k \
+  -X PUT \
+  -H "Authorization: Bearer JWT"
+```
+
+```javascript
+fetch(`https://album-api.benoithubert.me/api/v2/posts/${ID}/like`, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${JWT}`
+  }
+})
+  .then(res => res.json())
+  .then(post => { /* post has an updated value of likes */ })
+```
+
+> La requête ci-dessus renvoie un JSON structuré comme ceci :
+
+```json
+{
+  "id": 169,
+  "title": "Glacier",
+  "slug": "glacier",
+  "description": "In Iceland",
+  "picture": "https://i.imgur.com/PpD4G4N.jpeg",
+  "likes": 3,
+  "createdAt": "2022-02-08T05:36:19.881Z",
+  "tags": [
+    { "id": 1, "title": "landscape", "slug": "landscape" },
+    { "id": 2, "title": "glacier", "slug": "glacier" }
+  ],
+  "user": { "id": 3, "email": "test91@test.com", "avatar": null }
+}
+```
+
+Ce endpoint permet de "liker" un post. **Il nécessite le passage d'un JWT** dans le header `Authorization`.
+
+Il est tout à fait permis de "liker" un post créé par un autre utilisateur.
+
+### Requête HTTP
+
+`PUT https://album-api.benoithubert.me/api/v2/posts/<ID>/like`
+
+### Paramètres d'URL
+
+Paramètre | Description
+--------- | -----------
+ID        | ID du post à liker
+
+### Codes de retour HTTP
+
+* `200` : Succès
+* `401` : JSON Web Token invalide ou expiré
