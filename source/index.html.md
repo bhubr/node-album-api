@@ -63,9 +63,7 @@ fetch('https://album-api.benoithubert.me/api/v2/posts/11', {
 
 **Certains endpoints** requièrent un JSON Web Token placé dans le header `Authorization`, sous le format :
 
-```
-Bearer JWT
-```
+`Bearer JWT`
 
 Ce JWT aura été préalablement obtenu via une requête de "login" (voir "Endpoints d'authentification" puis "Authentifier un utilisateur").
 
@@ -177,6 +175,10 @@ pwd       | oui    | Mot de passe (5 caractères MINIMUM)
 * `200` : succès
 * `400` : champ(s) manquant(s) ou invalides
 * `401` : identifiants invalides
+
+## Obtenir les informations de l'utilisateur
+
+
 
 ## Get a Specific Kitten
 
