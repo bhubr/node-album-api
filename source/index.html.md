@@ -40,52 +40,47 @@ L'API est déployée à l'URL <https://album-api.benoithubert.me>.
 
 # Authentification
 
-**Certains endpoints** requièrent un JSON Web Token placé dans le header `Authorization`.
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
+> Pour effectuer une requête sur un endpoint "protégé", utiliser le code 
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+curl "https://album-api.benoithubert.me/api/v2/posts/11" \
+  -k \
+  -X DELETE
+  -H "Authorization: Bearer JWT"
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
+fetch('https://album-api.benoithubert.me/api/v2/posts/11', {
+  method: 'DELETE',
+  headers: {
+    Authorization: `Bearer ${JWT}`
+  }
+})
+  .then(res => res.json())
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Remplacez `JWT` par votre JSON Web Token
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+**Certains endpoints** requièrent un JSON Web Token placé dans le header `Authorization`, sous le format :
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+```
+Bearer JWT
+```
 
-`Authorization: meowmeowmeow`
+Ce JWT aura été préalablement obtenu via une requête de "login" (voir "Endpoints d'authentification" puis "Authentifier un utilisateur").
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Remplacez <code>JWT<code> par votre JSON Web Token.
 </aside>
 
-# Authentification
+# Endpoints d'authentification
 
 ## Inscrire un nouvel utilisateur
 
 ```shell
 curl "https://album-api.benoithubert.me/api/v2/auth/register" \
+  -k \
+  -X POST \
   -H "Content-Type: application/json" \
   -d '{"login":"foobar@example.com","pwd":"FooB1"}'
 ```
@@ -132,6 +127,8 @@ pwd       | oui    | Mot de passe (5 caractères MINIMUM)
 
 ```shell
 curl "https://album-api.benoithubert.me/api/v2/auth/login" \
+  -k \
+  -X POST \
   -H "Content-Type: application/json" \
   -d '{"login":"foobar@example.com","pwd":"FooB1"}'
 ```
