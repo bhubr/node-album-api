@@ -92,6 +92,8 @@ export default {
       }
       post.likes += 1;
       await postRepository.save(post);
+      delete post.user.password;
+      delete post.user.githubId;
       return res.send(post);
     } catch (err) {
       console.error('Error while liking post', err);
