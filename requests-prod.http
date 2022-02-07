@@ -7,9 +7,16 @@ GET https://album-api.benoithubert.me/api/posts/1
 ### Create a post
 POST https://album-api.benoithubert.me/api/v2/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibG9naW4iOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNjM5NzI4NTQ0fQ.wA4hPL07PxpEUDeClQTWDt-BppFkGqupOcMaQeSkq4k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImxvZ2luIjoidG90bzNAZXhhbXBsZS5jb20iLCJhdmF0YXIiOm51bGwsImlhdCI6MTY0MTU2NDU5NSwiZXhwIjoxNjQxNTY0NjU1fQ.RsKKh0lwbaES2UJLBPWPOtbbvMYh6WB72vBJtzK0gh0
 
 { "title": "Mount Fuji", "description": "Picture by Clay Banks / unsplash.com", "picture": "https://unsplash.com/photos/u27Rrbs9Dwc/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTQxMDA1&force=true&w=640" }
+
+### Create a post with missing data
+POST https://album-api.benoithubert.me/api/v2/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImxvZ2luIjoidG90bzNAZXhhbXBsZS5jb20iLCJhdmF0YXIiOm51bGwsImlhdCI6MTY0MTU2NDY4NSwiZXhwIjoxNjQxNTY0NzQ1fQ.R5Bkl9yVDLvM_7b8lDGeCBYfqlRKx0jpV8dUWLnNw8M
+
+{ "title": "", "description": "", "picture": "" }
 
 ### Delete one post
 DELETE https://album-api.benoithubert.me/api/v2/posts/29
@@ -29,6 +36,16 @@ POST https://album-api.benoithubert.me/api/v2/auth/login
 Content-Type: application/json
 
 {
-  "login": "toto3@example.com",
+  "login": "example3updated@example.com",
   "pwd": "toto3"
+}
+
+### Update user profile
+PUT https://album-api.benoithubert.me/api/v2/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImxvZ2luIjoidG90bzN1cGRhdGVkQGV4YW1wbGUuY29tIiwiYXZhdGFyIjoiL2F2YXRhcnMvYXZhdGFyLTI1LnBuZyIsImlhdCI6MTY0MTYzNDQ1MywiZXhwIjoxNjQxNjQxNjUzfQ.gT8oE37KkTbhS0ybc_JZviBR54Xnf6_dITvVzARf5ZM
+
+{
+  "login": "example3updated@example.com",
+  "avatar": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII"
 }
