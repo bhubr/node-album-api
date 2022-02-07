@@ -6,7 +6,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
 toc_footers:
-  - <a href="https://www.flaticon.com/free-icons/album" title="album icons">Icône album créée par Freepik - Flaticon</a>
+  - <a href="https://www.flaticon.com/free-icons/album" title="album icons">Icône album par Freepik - Flaticon</a>
   - <a href='https://github.com/slatedocs/slate'>Documentation créée avec Slate</a>
 
 includes:
@@ -96,7 +96,7 @@ fetch('https://album-api.benoithubert.me/api/v2/auth/register', {
   .then(data => { /* success! data is an empty object */ })
 ```
 
-> Les requêtes ci-dessus renvoient un JSON structuré comme ceci :
+> La requête ci-dessus renvoie un JSON structuré comme ceci :
 
 ```json
 {}
@@ -144,7 +144,7 @@ fetch('https://album-api.benoithubert.me/api/v2/auth/login', {
   .then(data => { /* success! data contains token and user */ })
 ```
 
-> Les requêtes ci-dessus renvoient un JSON structuré comme ceci :
+> La requête ci-dessus renvoie un JSON structuré comme ceci :
 
 ```json
 {
@@ -198,7 +198,7 @@ fetch('https://album-api.benoithubert.me/api/v2/auth/user', {
   .then(user => { /* success! user contains user info */ })
 ```
 
-> Les requêtes ci-dessus renvoient un JSON structuré comme ceci :
+> La requête ci-dessus renvoie un JSON structuré comme ceci :
 
 ```json
 {
@@ -219,107 +219,136 @@ Ce endpoint permet de récupérer les données d'un utilisateur. **Il nécessite
 * `200` : succès
 * `401` : JSON Web Token
 
-## Get a Specific Kitten
+# Endpoints posts
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+## Obtenir tous les posts
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
+curl -k "https://album-api.benoithubert.me/api/v2/posts"
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+fetch('https://album-api.benoithubert.me/api/v2/posts')
+  .then(res => res.json())
+  .then(posts => { /* success! posts contains an array */ })
 ```
 
-> The above command returns JSON structured like this:
+> La requête ci-dessus renvoie un JSON structuré comme ceci :
+
+```json
+[
+  {
+    "id": 158,
+    "title": "Earth Rise",
+    "slug": "earth-rise",
+    "description": "Picture taken from the moon",
+    "picture": "https://static.demilked.com/wp-content/uploads/2016/11/top-100-photos-most-influential-all-time-5.jpg",
+    "likes": 0,
+    "createdAt": "2022-02-07T21:15:28.909Z",
+    "tags": [],
+    "user": { "id": 3, "email": "test91@test.com", "avatar": null }
+  },
+  {
+    "id": 159,
+    "title": "Pillow Fight",
+    "slug": "pillow-fight",
+    "description": "The Beatles pillow-fighting",
+    "picture": "https://static.boredpanda.com/blog/wp-content/uploads/2016/11/top-100-world-photos-influential-all-time-30-5835a68f218d2__880.jpg",
+    "likes": 0,
+    "createdAt": "2022-02-07T21:29:31.290Z",
+    "tags": [],
+    "user": { "id": 4, "email": "test92@test.com", "avatar": null }
+  }
+]
+```
+
+Ce endpoint permet de récupérer tous les posts.
+
+### Requête HTTP
+
+* v2 (courante) : `GET https://album-api.benoithubert.me/api/v2/posts`
+* v1 (_legacy_) : `GET https://album-api.benoithubert.me/api/posts`
+
+## Récupérer un post spécifique
+
+> Remplacer ID par l'ID du post
+
+```shell
+curl -k "https://album-api.benoithubert.me/api/v2/posts/ID"
+```
+
+```javascript
+fetch(`https://album-api.benoithubert.me/api/v2/posts/${ID}`)
+  .then(res => res.json())
+  .then(post => { /* success! post is an object */ })
+```
+
+> La requête ci-dessus renvoie un JSON structuré comme ceci :
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "id": 158,
+  "title": "Earth Rise",
+  "slug": "earth-rise",
+  "description": "Picture taken from the moon",
+  "picture": "https://static.demilked.com/wp-content/uploads/2016/11/top-100-photos-most-influential-all-time-5.jpg",
+  "likes": 0,
+  "createdAt": "2022-02-07T21:15:28.909Z",
+  "tags": [],
+  "user": { "id": 3, "email": "test91@test.com", "avatar": null }
 }
 ```
 
-This endpoint retrieves a specific kitten.
+Ce endpoint permet de récupérer un post spécifique, via son ID.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
+### Requête HTTP
 
 `GET http://example.com/kittens/<ID>`
 
-### URL Parameters
+* v2 (courante) : `GET https://album-api.benoithubert.me/api/v2/posts/<ID>`
+* v1 (_legacy_) : `GET https://album-api.benoithubert.me/api/posts/<ID>`
 
-Parameter | Description
+### Paramètres d'URL
+
+Paramètre | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+ID        | ID du post à récupérer
 
-## Delete a Specific Kitten
+## Supprimer un post
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
+> Remplacer ID par l'ID du post, JWT par votre token :
 
 ```shell
-curl "http://example.com/api/kittens/2" \
+curl "https://album-api.benoithubert.me/api/v2/posts/ID" \
+  -k \
   -X DELETE \
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: Bearer JWT"
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+fetch(`https://album-api.benoithubert.me/api/v2/posts/${ID}`, {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${JWT}`
+  }
+})
+  .then(res => res.text()) // Don't attempt to parse JSON
+  .then(() => { /* NOTHING is returned */ })
 ```
 
-> The above command returns JSON structured like this:
+> La requête ci-dessus ne renvoie aucune donnée
 
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
+Ce endpoint permet de supprimer un post. **Il nécessite le passage d'un JWT** dans le header `Authorization`.
 
-This endpoint deletes a specific kitten.
+**De plus**, seul l'utilisateur qui a créé le post peut le supprimer.
 
-### HTTP Request
+### Requête HTTP
 
-`DELETE http://example.com/kittens/<ID>`
+`DELETE https://album-api.benoithubert.me/api/v2/posts<ID>`
 
-### URL Parameters
+### Paramètres d'URL
 
-Parameter | Description
+Paramètre | Description
 --------- | -----------
-ID | The ID of the kitten to delete
-
+ID        | ID du post à récupérer
