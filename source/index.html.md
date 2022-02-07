@@ -23,7 +23,7 @@ meta:
 
 # Introduction
 
-Bienvenue sur l'API Album ! Vous pouvez accéder à différents endpoints permettant de :
+Bienvenue sur l'**API Album** ! Vous pouvez accéder à différents endpoints permettant de :
 
 * Récupérer des photos et leurs informations associées,
 * Ajouter de nouvelles photos,
@@ -217,7 +217,7 @@ Ce endpoint permet de récupérer les données d'un utilisateur. **Il nécessite
 ### Codes de retour HTTP
 
 * `200` : succès
-* `401` : JSON Web Token
+* `401` : JSON Web Token invalide ou expiré
 
 # Endpoints posts
 
@@ -269,7 +269,7 @@ Ce endpoint permet de récupérer tous les posts.
 * v2 (courante) : `GET https://album-api.benoithubert.me/api/v2/posts`
 * v1 (_legacy_) : `GET https://album-api.benoithubert.me/api/posts`
 
-## Récupérer un post spécifique
+## Obtenir un post spécifique
 
 > Remplacer ID par l'ID du post
 
@@ -314,6 +314,81 @@ Paramètre | Description
 --------- | -----------
 ID        | ID du post à récupérer
 
+## Créer un post
+
+> Remplacez JWT par votre token :
+
+```shell
+curl "https://album-api.benoithubert.me/api/v2/posts" \
+  -k \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer JWT" \
+  -d '{"title":"Glacier","description":"Shot in Iceland","picture":"https://i.imgur.com/PpD4G4N.jpeg","tags":"landscape,glacier"}'
+```
+
+```javascript
+const payload = {
+  title: 'Glacier',
+  description: 'Shot in Iceland',
+  picture: 'https://i.imgur.com/PpD4G4N.jpeg',
+  tags: 'landscape,glacier',
+};
+fetch('https://album-api.benoithubert.me/api/v2/posts', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${JWT}`
+  },
+  body: JSON.stringify(payload)
+})
+  .then(res => res.json())
+  .then(post => { /* success! post is the created post */ })
+```
+
+> La requête ci-dessus renvoie un JSON structuré comme ceci :
+
+```json
+{
+  "title": "Glacier",
+  "slug": "glacier",
+  "description": "Shot in Iceland",
+  "picture": "https://i.imgur.com/PpD4G4N.jpeg",
+  "tags": [
+    { "title": "landscape", "slug": "landscape", "id": 1 },
+    { "title": "glacier", "slug": "glacier", "id": 2 }
+  ],
+  "id": 164,
+  "likes": 0,
+  "createdAt": "2022-02-08T05:16:52.977Z",
+  "userId": 3
+}
+```
+
+Ce endpoint permet d'enregistrer un nouveau post.
+
+### Requête HTTP
+
+* v2 (courante) : `POST https://album-api.benoithubert.me/api/v2/posts`
+* v1 (_legacy_) : `POST https://album-api.benoithubert.me/api/posts`
+
+<aside class="warning">La version v1 ne requiert pas de JWT. En revanche, le post ne sera associé à aucun utilisateur.</aside>
+
+### Champs du corps de requête
+
+Champ       | Requis | Description
+----------- | ------ | -----------
+title       | oui    | Titre du post
+description | non    | Description du post
+picture     | oui    | URL de l'image
+tags        | non    | Tags - chaîne (`"tag1,tag2"`) ou tableau de chaînes (`["tag1","tag2"]`)
+
+### Codes de retour HTTP
+
+* `201` : succès
+* `400` : champ(s) manquant(s) ou invalides
+* `401` : JWT invalide ou expiré
+
 ## Supprimer un post
 
 > Remplacer ID par l'ID du post, JWT par votre token :
@@ -352,3 +427,9 @@ Ce endpoint permet de supprimer un post. **Il nécessite le passage d'un JWT** d
 Paramètre | Description
 --------- | -----------
 ID        | ID du post à récupérer
+
+### Codes de retour HTTP
+
+* `200` : Succès
+* `401` : JSON Web Token invalide ou expiré
+* `403` : Non autorisé (post appartenant à un autre utilisateur)
