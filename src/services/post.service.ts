@@ -11,7 +11,7 @@ export default {
     let allTagRecords;
     if (tags) {
       const tagRepository = getRepository(Tag);
-      const splitTags = tags.split(',');
+      const splitTags = Array.isArray(tags) ? tags : tags.split(',');
       const tagRecords = await tagRepository.createQueryBuilder("tag")
         .where("tag.title IN (:tags)", { tags: splitTags })
         .getMany();
