@@ -1,11 +1,17 @@
-import { use } from 'chai';
 import { getRepository } from 'typeorm';
+import { validationResult } from 'express-validator';
 
 import { Post } from '../entity/Post';
 import postService from '../services/post.service';
 
 export default {
   async create(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json(errors);
+    }
     try {
       const userId = req?.user?.id;
       const { title, description, picture, tags } = req.body;
@@ -76,7 +82,9 @@ export default {
     try {
       const postId = Number(req.params.id);
       const postRepository = getRepository(Post);
-      const post: Post = await postRepository.findOne(postId);
+      const post: Post = await postRepository.findOne(postId, {
+        relations: ['tags', 'user']
+      });
       if (!post) {
         return res.status(404).send({
           error: `post with id ${postId} not found`
@@ -84,6 +92,8 @@ export default {
       }
       post.likes += 1;
       await postRepository.save(post);
+      delete post.user.password;
+      delete post.user.githubId;
       return res.send(post);
     } catch (err) {
       console.error('Error while liking post', err);
