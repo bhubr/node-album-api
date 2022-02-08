@@ -1,7 +1,8 @@
 module.exports = {
   apps : [{
     name: 'node-album-api',
-    script: 'dist/src/index.js',
+    script: './node_modules/.bin/ts-node',
+    args: '--transpile-only src/index.ts',
     watch: '.'
   }],
 
