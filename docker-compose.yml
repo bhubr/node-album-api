@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+
+  node:
+    build: .
+    ports:
+      - 5200:5200
+    volumes:
+      - .:/app
+    environment:
+      DB_HOST : db
+      DB_PORT : 3306
+      DB_USER : db_user
+      DB_PASS : db_user_pass
+      DB_NAME : app_db
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_password
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: db_user_pass
+    ports:
+      - 9000:3306
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: pma
+      links:
+        - db
+      environment:
+        PMA_HOST: db
+        PMA_PORT: 3306
+        PMA_ARBITRARY: 1
+      restart: always
+      ports:
+        - 8081:80

@@ -8,7 +8,7 @@
 ## Setup instructions
 
 * clone this repo
-* `npm install` or `yarn install`
+* `npm install`
 * copy `.env.sample` as `.env`
 * modify `.env` to set environment variables
 * initialize MySQL db : copy-paste `init.sql` in MySQL console. Alternatively: `mysql -uroot -p < init.sql`
