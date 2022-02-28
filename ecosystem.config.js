@@ -1,21 +1,13 @@
+// ecosystem.config.js
+// https://stackoverflow.com/q/60581617
+
 module.exports = {
   apps : [{
     name: 'node-album-api',
+    // On doit passer directement le chemin vers l'"exécutable" ts-node
     script: './node_modules/.bin/ts-node',
+    // Paramètres recommandés pour le fonctionnement en production
+    // (Diminue l'empreinte mémoire)
     args: '--transpile-only src/index.ts',
-    watch: '.'
   }],
-
-  deploy : {
-    production : {
-      user : 'SSH_USERNAME',
-      host : 'SSH_HOSTMACHINE',
-      ref  : 'origin/master',
-      repo : 'GIT_REPOSITORY',
-      path : 'DESTINATION_PATH',
-      'pre-deploy-local': '',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production',
-      'pre-setup': ''
-    }
-  }
 };
