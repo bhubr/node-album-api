@@ -16,6 +16,12 @@ console.log(
   obfuscate(process.env.DB_PASS),
 );
 
+console.log('>> env', process.env.NODE_ENV);
+
+const isProd = process.env.NODE_ENV === 'production';
+const dir = isProd ? 'dist' : 'src';
+const ext = isProd ? 'js' : 'ts';
+
 export default {
   type: 'postgres',
   host: process.env.DB_HOST || '127.0.0.1',
@@ -25,12 +31,12 @@ export default {
   database: process.env.DB_NAME || 'test',
   synchronize: true,
   logging: false,
-  entities: ['src/entity/**/*.ts'],
-  migrations: ['src/migration/**/*.ts'],
-  subscribers: ['src/subscriber/**/*.ts'],
+  entities: [`${dir}/entity/**/*.${ext}`],
+  migrations: [`${dir}/migration/**/*.${ext}`],
+  subscribers: [`${dir}/subscriber/**/*.${ext}`],
   cli: {
-    entitiesDir: 'src/entity',
-    migrationsDir: 'src/migration',
-    subscribersDir: 'src/subscriber',
+    entitiesDir: `${dir}/entity`,
+    migrationsDir: `${dir}/migration`,
+    subscribersDir: `${dir}/subscriber`,
   },
 };
