@@ -17,7 +17,7 @@ console.log(
 );
 
 export default {
-  type: 'mysql',
+  type: 'postgres',
   host: process.env.DB_HOST || '127.0.0.1',
   port: process.env.DB_PORT || 3306,
   username: process.env.DB_USER || 'test',
