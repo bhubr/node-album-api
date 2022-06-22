@@ -2,6 +2,17 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const obfuscate = (str: string) =>
+  typeof str === 'string'
+    ? str.slice(0, 3) + '*'.repeat(str.length - 3)
+    : 'N/A';
+
+console.log(
+  '>> db',
+  obfuscate(process.env.DB_USER),
+  obfuscate(process.env.DB_PASS)
+);
+
 export default {
   type: 'mysql',
   host: process.env.DB_HOST || '127.0.0.1',
