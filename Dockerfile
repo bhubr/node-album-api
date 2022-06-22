@@ -8,5 +8,6 @@ COPY tsconfig.json .
 RUN npm run build
 RUN cp dist/ormconfig.js* .
 COPY public /app/public
+RUN rm -rf src
 
 CMD ["npm", "start"]
