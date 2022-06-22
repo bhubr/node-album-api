@@ -9,8 +9,11 @@ const obfuscate = (str: string) =>
 
 console.log(
   '>> db',
+  obfuscate(process.env.DB_HOST),
+  obfuscate(process.env.DB_PORT),
+  obfuscate(process.env.DB_NAME),
   obfuscate(process.env.DB_USER),
-  obfuscate(process.env.DB_PASS)
+  obfuscate(process.env.DB_PASS),
 );
 
 export default {
