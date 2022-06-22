@@ -1,4 +1,6 @@
-import './src/env';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default {
   type: 'mysql',
